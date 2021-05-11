@@ -1,10 +1,14 @@
 package xyz.damt.listeners;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 import xyz.damt.profiles.Profile;
 import xyz.damt.util.framework.listener.ListenerAdapter;
 
@@ -55,6 +59,28 @@ public class SoupListener extends ListenerAdapter {
 
         damagerProfile.getTimerCooldown().placeOnCooldown(damager, 30);
         targetProfile.getTimerCooldown().placeOnCooldown(target, 30);
+    }
+
+    @EventHandler
+    public void onSoupInteractEvent(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        ItemStack stack = player.getItemInHand();
+
+        if (!stack.getType().equals(Material.MUSHROOM_SOUP)) return;
+
+        if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            Profile profile = soup.getProfileHandler().getProfileByUUID(player.getUniqueId());
+            profile.setSoupsUsed(profile.getSoupsUsed() + 1);
+
+            player.setItemInHand(new ItemStack(Material.BOWL));
+            double finalHealth = player.getHealth() + soup.getConfigHandler().getSettingsHandler().HEALTH_INCREASE;
+
+            if (finalHealth >= 20) {
+                player.setHealth(20D);
+            } else {
+                player.setHealth(finalHealth);
+            }
+        }
     }
 
 }

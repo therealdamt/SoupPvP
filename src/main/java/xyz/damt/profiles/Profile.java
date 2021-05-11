@@ -27,6 +27,7 @@ public class Profile {
     private int coins;
     private int kills;
     private int deaths;
+    private int soupsUsed;
 
     public Profile(UUID uuid, boolean mongo) {
         this.uuid = uuid;
@@ -46,6 +47,7 @@ public class Profile {
                 this.kills = soup.getProfilesYML().getConfig().getInt(uuid.toString() + ".kills");
                 this.deaths = soup.getProfilesYML().getConfig().getInt(uuid.toString() + ".deaths");
                 this.coins = soup.getProfilesYML().getConfig().getInt(uuid.toString() + ".coins");
+                this.soupsUsed = soup.getProfilesYML().getInt(uuid.toString() + ".used");
                 return;
             }
 
@@ -55,6 +57,7 @@ public class Profile {
             this.kills = document.getInteger("kills");
             this.deaths = document.getInteger("deaths");
             this.coins = document.getInteger("coins");
+            this.soupsUsed = document.getInteger("used");
         });
     }
 
@@ -66,6 +69,7 @@ public class Profile {
                     soup.getProfilesYML().getConfig().set(uuid.toString() + ".kills", 0);
                     soup.getProfilesYML().getConfig().set(uuid.toString() + ".deaths", 0);
                     soup.getProfilesYML().getConfig().set(uuid.toString() + ".coins", 0);
+                    soup.getProfilesYML().getConfig().set(uuid.toString() + ".used", 0);
 
                     try {
                         soup.getProfilesYML().save();
@@ -78,6 +82,8 @@ public class Profile {
                 soup.getProfilesYML().getConfig().set(uuid.toString() + ".kills", kills);
                 soup.getProfilesYML().getConfig().set(uuid.toString() + ".deaths", deaths);
                 soup.getProfilesYML().getConfig().set(uuid.toString() + ".coins", coins);
+                soup.getProfilesYML().getConfig().set(uuid.toString() + ".used", soupsUsed);
+
                 try {
                     soup.getProfilesYML().save();
                 } catch (IOException e) {
@@ -97,6 +103,7 @@ public class Profile {
             updateDocument(document, "kills", kills);
             updateDocument(document, "deaths", deaths);
             updateDocument(document, "coins", coins);
+            updateDocument(document, "used", soupsUsed);
         });
     }
 
