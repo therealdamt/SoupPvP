@@ -1,0 +1,48 @@
+mongo:
+  host: "localhost"
+  port: 27017
+  auth:
+    enabled: false
+    database: "admin"
+    username: ""
+    password: ""
+
+settings:
+  announce-auto-save: true
+  kill-reward: 100
+  death-loss: 100
+
+location:
+  spawn:
+    world: "world"
+    x: 0.00
+    y: 80.00
+    z: 0.00
+    yaw: 0.00
+    pitch: 0.00
+
+messages:
+  death-message: "&a{player} &7has been slaughtered by &a{killer} &7using &a{reason}"
+
+scoreboard:
+  title: "&a&lSoupPvP &7(Map 1)"
+  normal:
+    - "&7&m----------------------------"
+    - "&aPlayer Name&f:&7 {player}"
+    - " "
+    - "&aKills&f: &7{kills}"
+    - "&aDeaths&f: &7{deaths}"
+    - "&aCoins&f: &7{coins}"
+    - " "
+    - "&7&odamt.xyz"
+    - "&7&m----------------------------"
+  in-combat:
+    - "&7&m----------------------------"
+    - "&aPlayer Name&f:&7 {player}"
+    - " "
+    - "&aCombat&f: &7{time}s"
+    - "&aKills&f: &7{kills}"
+    - "&aCoins&f: &7{coins}"
+    - " "
+    - "&7&odamt.xyz"
+    - "&7&m----------------------------"
