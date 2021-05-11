@@ -20,10 +20,15 @@ import xyz.damt.tasks.MongoSaveTask;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class Soup extends JavaPlugin {
+
+    @Getter private Executor profileThread;
+    @Getter private Executor kitsThread;
 
     @Getter private ConfigHandler configHandler;
     @Getter private ProfileHandler profileHandler;
@@ -64,6 +69,9 @@ public final class Soup extends JavaPlugin {
     }
 
     private void objects() {
+        this.profileThread = Executors.newFixedThreadPool(2);
+        this.kitsThread = Executors.newFixedThreadPool(1);
+
         this.locationHandler = new LocationHandler();
         this.configHandler = new ConfigHandler();
         this.loadDatabase();

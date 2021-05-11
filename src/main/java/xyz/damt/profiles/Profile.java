@@ -13,12 +13,11 @@ import xyz.damt.util.cooldown.Cooldown;
 
 import java.util.UUID;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @Getter @Setter
 public class Profile {
 
-    private final Executor profileThread = Executors.newFixedThreadPool(1);
+    private final Executor profileThread;
     private final Cooldown timerCooldown = new Cooldown();
 
     private final UUID uuid;
@@ -31,6 +30,8 @@ public class Profile {
     public Profile(UUID uuid) {
         this.uuid = uuid;
         this.soup = JavaPlugin.getPlugin(Soup.class);
+
+         this.profileThread = soup.getProfileThread();
 
         soup.getProfileHandler().getProfileHashMap().put(uuid, this);
         this.load();

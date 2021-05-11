@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 public class Kit {
 
     private final Soup soup;
-    private final Executor kitThread = Executors.newFixedThreadPool(1);
+    private final Executor kitThread;
 
     private String kitName;
     private ItemStack[] contents;
@@ -32,6 +32,7 @@ public class Kit {
     public Kit(String kitName, ItemStack[] armorContents, ItemStack[] contents) {
         this.soup = JavaPlugin.getPlugin(Soup.class);
 
+        this.kitThread = soup.getKitsThread();
         this.kitName = kitName;
         this.contents = contents;
         this.armorContents = armorContents;
