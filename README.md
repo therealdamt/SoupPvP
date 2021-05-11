@@ -31,17 +31,9 @@ mongo:
 settings:
   announce-auto-save: true
   mongo: false
+  health-increase: 4.00 #2 health = 1 heart
   kill-reward: 100
   death-loss: 100
-
-location:
-  spawn:
-    world: "world"
-    x: 0.00
-    y: 80.00
-    z: 0.00
-    yaw: 0.00
-    pitch: 0.00
 
 messages:
   death-message: "&a{player} &7has been slaughtered by &a{killer} &7using &a{reason}"
@@ -55,6 +47,7 @@ scoreboard:
     - "&aKills&f: &7{kills}"
     - "&aDeaths&f: &7{deaths}"
     - "&aCoins&f: &7{coins}"
+    - "&aSoups Used&f: &7{used}"
     - " "
     - "&7&odamt.xyz"
     - "&7&m----------------------------"
@@ -65,6 +58,7 @@ scoreboard:
     - "&aCombat&f: &7{time}s"
     - "&aKills&f: &7{kills}"
     - "&aCoins&f: &7{coins}"
+    - "&aSoups Used&f: &7{used}"
     - " "
     - "&7&odamt.xyz"
     - "&7&m----------------------------"
