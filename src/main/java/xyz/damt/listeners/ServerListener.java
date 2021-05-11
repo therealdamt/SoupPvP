@@ -37,6 +37,8 @@ public class ServerListener extends ListenerAdapter {
     }
 
     @EventHandler
-    public void onCreateSpawnEvent(CreatureSpawnEvent e) { e.setCancelled(true); }
+    public void onCreateSpawnEvent(CreatureSpawnEvent e) {
+        e.setCancelled(true);
+    }
 
 }
