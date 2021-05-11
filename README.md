@@ -13,6 +13,11 @@ I've tried to optimize the plugin to my hardest, saving happens per 5 minutes to
 ### Configuration
 You can check out the configuration here:
 
+### Data Storage
+You can choose between 2 of the following data storages:
+* YML Storage
+* Mongo Storage
+
 ```yml
 mongo:
   host: "localhost"
@@ -25,6 +30,7 @@ mongo:
 
 settings:
   announce-auto-save: true
+  mongo: false
   kill-reward: 100
   death-loss: 100
 
