@@ -27,13 +27,15 @@ public class Adapter implements AssembleAdapter {
             return CC.translate(soup.getConfigHandler().getScoreboardHandler().IN_COMBAT.stream().map(string -> string.replace("{coins}",
                     String.valueOf(playerProfile.getCoins())).replace("{kills}", String.valueOf(playerProfile.getKills()))
                     .replace("{deaths}", String.valueOf(playerProfile.getDeaths()))
+                    .replace("{used}", String.valueOf(playerProfile.getSoupsUsed()))
                     .replace("{time}", String.valueOf(playerProfile.getTimerCooldown().getTime(player)))
                     .replace("{player}", player.getName())).collect(Collectors.toList()));
         }
 
         return CC.translate(soup.getConfigHandler().getScoreboardHandler().IN_COMBAT.stream().map(string -> string.replace("{coins}",
                 String.valueOf(playerProfile.getCoins())).replace("{kills}", String.valueOf(playerProfile.getKills()))
-                .replace("{deaths}", String.valueOf(playerProfile.getDeaths()))
+                .replace("{deaths}", String.valueOf(playerProfile.getDeaths())
+                .replace("{used}", String.valueOf(playerProfile.getSoupsUsed())))
                 .replace("{player}", player.getName())).collect(Collectors.toList()));
     }
 }
