@@ -24,6 +24,21 @@ public class KitHandler {
 
     public void loadAllKits() {
         soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
+            if (!soup.getConfigHandler().getSettingsHandler().USE_MONGO) {
+                soup.getKitsYML().getConfig().getConfigurationSection("").getKeys(false).forEach(s -> {
+                    Kit kit = null;
+                    try {
+                        kit = new Kit(s, Serializer.itemStackArrayFromBase64(soup.getConfig().getString(s + ".contents")),
+                                Serializer.itemStackArrayFromBase64(soup.getConfig().getString(s + ".armor")));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    assert kit != null;
+                    kit.setEffects(CC.deserializePotionEffects(soup.getConfig().getStringList(s + ".effects")));
+                });
+                return;
+            }
+
            soup.getKits().find().forEach((Consumer<? super Document>) document -> {
                Kit kit = null;
                try {
