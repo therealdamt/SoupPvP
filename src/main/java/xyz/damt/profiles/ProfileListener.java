@@ -19,7 +19,7 @@ public class ProfileListener extends ListenerAdapter {
         }
 
         if (!soup.getProfileHandler().hasProfile(e.getUniqueId())) {
-            new Profile(e.getUniqueId()).save();
+            new Profile(e.getUniqueId(), soup.getConfigHandler().getSettingsHandler().USE_MONGO).save();
         }
     }
 

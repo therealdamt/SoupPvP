@@ -13,12 +13,14 @@ import xyz.damt.Soup;
 import xyz.damt.util.CC;
 import xyz.damt.util.Serializer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-@Getter @Setter
+@Getter
+@Setter
 public class Kit {
 
     private final Soup soup;
@@ -63,8 +65,23 @@ public class Kit {
         this.effects.remove(effect);
     }
 
-    public void save() {
+    public void save(boolean mongo) {
         kitThread.execute(() -> {
+            if (!mongo) {
+                soup.getKitsYML().getConfig().set(kitName + ".contents", Serializer.itemStackArrayToBase64(contents));
+                soup.getKitsYML().getConfig().set(kitName + ".armor", Serializer.itemStackArrayToBase64(armorContents));
+                soup.getKitsYML().getConfig().set(kitName + ".effects", CC.serializePotionEffects(effects));
+
+                try {
+                    soup.getKitsYML().save();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return;
+            }
+
+
             Document document = soup.getKits().find(new Document("_id", kitName)).first();
 
             if (document == null) {

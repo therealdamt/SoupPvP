@@ -9,6 +9,7 @@ mongo:
 
 settings:
   announce-auto-save: true
+  mongo: false
   kill-reward: 100
   death-loss: 100
 

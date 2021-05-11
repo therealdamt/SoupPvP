@@ -17,6 +17,7 @@ import xyz.damt.profiles.Profile;
 import xyz.damt.profiles.ProfileHandler;
 import xyz.damt.scoreboard.Adapter;
 import xyz.damt.tasks.MongoSaveTask;
+import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
 
@@ -27,18 +28,31 @@ import java.util.logging.Logger;
 
 public final class Soup extends JavaPlugin {
 
-    @Getter private Executor profileThread;
-    @Getter private Executor kitsThread;
+    @Getter
+    private Executor profileThread;
+    @Getter
+    private Executor kitsThread;
 
-    @Getter private ConfigHandler configHandler;
-    @Getter private ProfileHandler profileHandler;
-    @Getter private LocationHandler locationHandler;
-    @Getter private KitHandler kitHandler;
+    @Getter
+    private ConfigHandler configHandler;
+    @Getter
+    private ProfileHandler profileHandler;
+    @Getter
+    private LocationHandler locationHandler;
+    @Getter
+    private KitHandler kitHandler;
     //
-    @Getter private MongoClient client;
-    @Getter private MongoDatabase mongoDatabase;
-    @Getter private MongoCollection<Document> profiles;
-    @Getter private MongoCollection<Document> kits;
+    @Getter private ConfigFile kitsYML;
+    @Getter private ConfigFile profilesYML;
+    //
+    @Getter
+    private MongoClient client;
+    @Getter
+    private MongoDatabase mongoDatabase;
+    @Getter
+    private MongoCollection<Document> profiles;
+    @Getter
+    private MongoCollection<Document> kits;
 
     @Override
     public void onLoad() {
@@ -59,13 +73,14 @@ public final class Soup extends JavaPlugin {
         assemble.setAssembleStyle(AssembleStyle.KOHI);
         assemble.setTicks(2);
 
+        if (configHandler.getSettingsHandler().USE_MONGO)
         new MongoSaveTask().runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
     }
 
     @Override
     public void onDisable() {
         this.profileHandler.getAllProfiles().forEach(Profile::save);
-        this.kitHandler.getAllKits().forEach(Kit::save);
+        this.kitHandler.getAllKits().forEach(kit -> kit.save(configHandler.getSettingsHandler().USE_MONGO));
     }
 
     private void objects() {
@@ -74,10 +89,18 @@ public final class Soup extends JavaPlugin {
 
         this.locationHandler = new LocationHandler();
         this.configHandler = new ConfigHandler();
+
+        if (!configHandler.getSettingsHandler().USE_MONGO) {
+            this.kitsYML = new ConfigFile(getDataFolder(), "kits.yml");
+            this.profilesYML = new ConfigFile(getDataFolder(), "profiles.yml");
+        }
+
         this.loadDatabase();
     }
 
     private void loadDatabase() {
+        if (!configHandler.getSettingsHandler().USE_MONGO) return;
+
         if (configHandler.getDatabase().MONGO_HAS_AUTH) {
             client = new MongoClient(
                     new ServerAddress(configHandler.getDatabase().MONGO_HOST, configHandler.getDatabase().MONGO_PORT),

@@ -24,8 +24,15 @@ public class ProfileHandler {
 
     public void loadAllProfiles() {
         soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
+            if (soup.getConfigHandler().getSettingsHandler().USE_MONGO) {
+                soup.getProfilesYML().getConfig().getConfigurationSection("").getKeys(false).forEach(s -> {
+                    new Profile(UUID.fromString(s), false);
+                });
+                return;
+            }
+
            soup.getProfiles().find().forEach((Consumer<? super Document>) document -> {
-                new Profile(UUID.fromString(document.getString("_id")));
+                new Profile(UUID.fromString(document.getString("_id")), true);
            });
         });
     }
