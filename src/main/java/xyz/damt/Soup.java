@@ -26,32 +26,23 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Getter
 public final class Soup extends JavaPlugin {
 
-    @Getter
     private Executor profileThread;
-    @Getter
     private Executor kitsThread;
 
-    @Getter
     private ConfigHandler configHandler;
-    @Getter
     private ProfileHandler profileHandler;
-    @Getter
     private LocationHandler locationHandler;
-    @Getter
     private KitHandler kitHandler;
     //
-    @Getter private ConfigFile kitsYML;
-    @Getter private ConfigFile profilesYML;
+    private ConfigFile kitsYML;
+    private ConfigFile profilesYML;
     //
-    @Getter
     private MongoClient client;
-    @Getter
     private MongoDatabase mongoDatabase;
-    @Getter
     private MongoCollection<Document> profiles;
-    @Getter
     private MongoCollection<Document> kits;
 
     @Override
