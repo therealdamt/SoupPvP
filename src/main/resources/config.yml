@@ -13,15 +13,6 @@ settings:
   kill-reward: 100
   death-loss: 100
 
-location:
-  spawn:
-    world: "world"
-    x: 0.00
-    y: 80.00
-    z: 0.00
-    yaw: 0.00
-    pitch: 0.00
-
 messages:
   death-message: "&a{player} &7has been slaughtered by &a{killer} &7using &a{reason}"
 

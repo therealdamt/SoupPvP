@@ -39,7 +39,7 @@ public class SoupListener extends ListenerAdapter {
 
     @EventHandler
     public void onPlayerRespawnEvent(PlayerRespawnEvent e) {
-        e.setRespawnLocation(soup.getLocationHandler().getSpawnLocation());
+        e.setRespawnLocation(e.getPlayer().getWorld().getSpawnLocation());
     }
 
     @EventHandler

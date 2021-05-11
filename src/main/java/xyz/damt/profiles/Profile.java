@@ -13,13 +13,11 @@ import xyz.damt.util.cooldown.Cooldown;
 
 import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.Executor;
 
 @Getter
 @Setter
 public class Profile {
 
-    private final Executor profileThread;
     private final Cooldown timerCooldown = new Cooldown();
 
     private final UUID uuid;
@@ -36,14 +34,12 @@ public class Profile {
 
         this.soup = JavaPlugin.getPlugin(Soup.class);
 
-        this.profileThread = soup.getProfileThread();
-
         soup.getProfileHandler().getProfileHashMap().put(uuid, this);
         this.load();
     }
 
     public void load() {
-        profileThread.execute(() -> {
+        soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
             if (!mongo) {
                 if (!soup.getProfilesYML().getConfig().contains(uuid.toString())) return;
 
@@ -63,7 +59,7 @@ public class Profile {
     }
 
     public void save() {
-        profileThread.execute(() -> {
+        soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
             if (!mongo) {
                 if (!soup.getProfilesYML().getConfig().contains(uuid.toString())) {
 
@@ -115,11 +111,11 @@ public class Profile {
     private void updateDocument(Document document, String key, Object value) {
         if (document != null) {
             document.put(key, value);
-            profileThread.execute(() ->
-                    soup.getProfiles().replaceOne(Filters.eq("_id", uuid.toString())
-                            , document, new ReplaceOptions().upsert(true)));
+            soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
+                soup.getProfiles().replaceOne(Filters.eq("_id", uuid.toString())
+                        , document, new ReplaceOptions().upsert(true));
+            });
         }
-
     }
 
 }

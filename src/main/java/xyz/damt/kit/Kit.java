@@ -16,15 +16,12 @@ import xyz.damt.util.Serializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @Getter
 @Setter
 public class Kit {
 
     private final Soup soup;
-    private final Executor kitThread;
 
     private String kitName;
     private ItemStack[] contents;
@@ -34,7 +31,6 @@ public class Kit {
     public Kit(String kitName, ItemStack[] armorContents, ItemStack[] contents) {
         this.soup = JavaPlugin.getPlugin(Soup.class);
 
-        this.kitThread = soup.getKitsThread();
         this.kitName = kitName;
         this.contents = contents;
         this.armorContents = armorContents;
@@ -66,7 +62,7 @@ public class Kit {
     }
 
     public void save(boolean mongo) {
-        kitThread.execute(() -> {
+        soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
             if (!mongo) {
                 soup.getKitsYML().getConfig().set(kitName + ".contents", Serializer.itemStackArrayToBase64(contents));
                 soup.getKitsYML().getConfig().set(kitName + ".armor", Serializer.itemStackArrayToBase64(armorContents));
@@ -100,11 +96,11 @@ public class Kit {
     private void updateDocument(Document document, String key, Object value) {
         if (document != null) {
             document.put(key, value);
-            kitThread.execute(() ->
-                    soup.getProfiles().replaceOne(Filters.eq("_id", kitName)
-                            , document, new ReplaceOptions().upsert(true)));
+            soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
+                soup.getProfiles().replaceOne(Filters.eq("_id", kitName)
+                        , document, new ReplaceOptions().upsert(true));
+            });
         }
-
     }
 
 }

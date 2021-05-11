@@ -10,8 +10,6 @@ import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.config.ConfigHandler;
-import xyz.damt.handlers.LocationHandler;
-import xyz.damt.kit.Kit;
 import xyz.damt.kit.KitHandler;
 import xyz.damt.profiles.Profile;
 import xyz.damt.profiles.ProfileHandler;
@@ -21,20 +19,12 @@ import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Getter
 public final class Soup extends JavaPlugin {
 
-    private Executor profileThread;
-    private Executor kitsThread;
-
     private ConfigHandler configHandler;
     private ProfileHandler profileHandler;
-    private LocationHandler locationHandler;
     private KitHandler kitHandler;
     //
     private ConfigFile kitsYML;
@@ -52,7 +42,14 @@ public final class Soup extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.objects();
+        this.configHandler = new ConfigHandler();
+
+        if (!configHandler.getSettingsHandler().USE_MONGO) {
+            this.kitsYML = new ConfigFile(getDataFolder(), "kits.yml");
+            this.profilesYML = new ConfigFile(getDataFolder(), "profiles.yml");
+        }
+
+        this.loadDatabase();
 
         this.profileHandler = new ProfileHandler();
         this.profileHandler.loadAllProfiles();
@@ -72,21 +69,6 @@ public final class Soup extends JavaPlugin {
     public void onDisable() {
         this.profileHandler.getAllProfiles().forEach(Profile::save);
         this.kitHandler.getAllKits().forEach(kit -> kit.save(configHandler.getSettingsHandler().USE_MONGO));
-    }
-
-    private void objects() {
-        this.profileThread = Executors.newFixedThreadPool(2);
-        this.kitsThread = Executors.newFixedThreadPool(1);
-
-        this.locationHandler = new LocationHandler();
-        this.configHandler = new ConfigHandler();
-
-        if (!configHandler.getSettingsHandler().USE_MONGO) {
-            this.kitsYML = new ConfigFile(getDataFolder(), "kits.yml");
-            this.profilesYML = new ConfigFile(getDataFolder(), "profiles.yml");
-        }
-
-        this.loadDatabase();
     }
 
     private void loadDatabase() {
@@ -111,11 +93,6 @@ public final class Soup extends JavaPlugin {
 
         profiles = mongoDatabase.getCollection("profiles");
         kits = mongoDatabase.getCollection("kits");
-
-        System.setProperty("DEBUG.GO", "true");
-        System.setProperty("DB.TRACE", "true");
-        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
-        mongoLogger.setLevel(Level.WARNING);
     }
 
 }
