@@ -5,7 +5,7 @@ Hello there everyone, my name is damt and this core has been created just to add
 However, know that the code is still **not** tested!
 
 ### API
-You can check information on the API via the wiki, or by clicking [here](https://github.com/therealdamt/SoupPvP/wiki/API)
+You can check information on the API via the wiki, or by clicking [here](https://github.com/therealdamt/SoupPvP/wiki/API)!
 
 ### Optimization
 I've tried to optimize the plugin to my hardest, saving happens per 5 minutes to help the server not lag. Everything saves onto the mongo and nothing really to the config.yml.
@@ -19,10 +19,10 @@ You can choose between 2 of the following data storages:
 * Mongo Storage 
 
 ### Permissions
-You can check out information on the permissions via the wiki, or by clicking [here](https://github.com/therealdamt/SoupPvP/wiki/Permissions))
+You can check out information on the permissions via the wiki, or by clicking [here](https://github.com/therealdamt/SoupPvP/wiki/Permissions)!
 
 ### PlaceHolderAPI
-You can check out information on the PlaceHolder(s) available via the wiki, or by click [here](https://github.com/therealdamt/SoupPvP/wiki/PlaceHolder(s))
+You can check out information on the PlaceHolder(s) available via the wiki, or by click [here](https://github.com/therealdamt/SoupPvP/wiki/PlaceHolder(s)!
 
 ### Credits
 
