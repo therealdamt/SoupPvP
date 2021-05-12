@@ -4,7 +4,7 @@
 Hello there everyone, my name is damt and this core has been created just to add something spicy to my portfolio. All concepts and all code that is stated should work right now. 
 However, know that the code is still **not** tested!
 
-### API
+### Developer API
 You can check information on the API via the ``wiki``, or by clicking [here](https://github.com/therealdamt/SoupPvP/wiki/API)! The API has everything any developer would need to complete his plugin or to customize the SoupPvP plugin to the max!
 
 ### Optimization
