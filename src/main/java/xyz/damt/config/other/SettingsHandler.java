@@ -8,6 +8,7 @@ public class SettingsHandler {
     public final int DEATH_LOSS;
     public final double HEALTH_INCREASE;
     public final boolean USE_MONGO;
+    public final boolean USE_PLACEHOLDER_API;
 
     public SettingsHandler(FileConfiguration soup) {
         this.ANNOUNCE_AUTO_SAVE = soup.getBoolean("settings.announce-auto-save");
@@ -15,6 +16,7 @@ public class SettingsHandler {
         this.DEATH_LOSS = soup.getInt("settings.death-loss");
         this.HEALTH_INCREASE = soup.getInt("settings.health-increase");
         this.USE_MONGO = soup.getBoolean("settings.mongo");
+        this.USE_PLACEHOLDER_API = soup.getBoolean("settings.use-placeholder-api");
     }
 
 }

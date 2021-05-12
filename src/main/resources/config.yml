@@ -10,6 +10,7 @@ mongo:
 settings:
   announce-auto-save: true
   mongo: false
+  use-placeholder-api: true
   health-increase: 4.00 #2 health = 1 heart
   kill-reward: 100
   death-loss: 100

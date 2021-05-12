@@ -9,12 +9,15 @@ import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.damt.api.SoupAPI;
 import xyz.damt.config.ConfigHandler;
 import xyz.damt.kit.KitHandler;
+import xyz.damt.placeholder.PlaceHolderExpansion;
 import xyz.damt.profiles.Profile;
 import xyz.damt.profiles.ProfileHandler;
 import xyz.damt.scoreboard.Adapter;
 import xyz.damt.tasks.MongoSaveTask;
+import xyz.damt.util.CC;
 import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
@@ -22,6 +25,8 @@ import xyz.damt.util.assemble.AssembleStyle;
 
 @Getter
 public final class Soup extends JavaPlugin {
+
+    private SoupAPI soupAPI;
 
     private ConfigHandler configHandler;
     private ProfileHandler profileHandler;
@@ -49,6 +54,14 @@ public final class Soup extends JavaPlugin {
             this.profilesYML = new ConfigFile(getDataFolder(), "profiles.yml");
         }
 
+        if (configHandler.getSettingsHandler().USE_PLACEHOLDER_API) {
+            if (new PlaceHolderExpansion(this).register()) {
+                this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&aSoup&7] &aHooked into PlaceHolderAPI!"));
+            } else {
+                this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&aSoup&7] &cFailed to hook into PlaceHolderAPI!"));
+            }
+        }
+
         this.loadDatabase();
 
         this.profileHandler = new ProfileHandler();
@@ -63,6 +76,8 @@ public final class Soup extends JavaPlugin {
 
         if (configHandler.getSettingsHandler().USE_MONGO)
         new MongoSaveTask().runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
+
+        this.soupAPI = new SoupAPI();
     }
 
     @Override

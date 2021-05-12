@@ -9,6 +9,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import xyz.damt.api.events.CoinGainEvent;
+import xyz.damt.api.events.DeathGainEvent;
+import xyz.damt.api.events.KillGainEvent;
+import xyz.damt.api.events.SoupUseEvent;
 import xyz.damt.profiles.Profile;
 import xyz.damt.util.framework.listener.ListenerAdapter;
 
@@ -24,21 +28,27 @@ public class SoupListener extends ListenerAdapter {
         Profile killerProfile = soup.getProfileHandler().getProfileByUUID(killer.getUniqueId());
         Profile targetProfile = soup.getProfileHandler().getProfileByUUID(target.getUniqueId());
 
+        soup.getServer().getPluginManager().callEvent(new KillGainEvent(killerProfile, targetProfile, 1));
+        soup.getServer().getPluginManager().callEvent(new DeathGainEvent(killerProfile, targetProfile, 1));
+
         killerProfile.setKills(killerProfile.getKills() + 1);
         targetProfile.setDeaths(targetProfile.getDeaths() + 1);
 
-        killerProfile.setCoins(killerProfile.getCoins() + soup.getConfigHandler().getSettingsHandler().KILL_REWARD);
+        CoinGainEvent coinGainEvent = new CoinGainEvent(killerProfile, soup.getConfigHandler().getSettingsHandler().KILL_REWARD);
+        soup.getServer().getPluginManager().callEvent(coinGainEvent);
+        if (!coinGainEvent.isCancelled()) {
+            killerProfile.setCoins(killerProfile.getCoins() + coinGainEvent.getCoinsAmount());
+        }
 
         if (targetProfile.getCoins() < soup.getConfigHandler().getSettingsHandler().DEATH_LOSS) {
             targetProfile.setCoins(0);
-            return;
+        } else {
+            targetProfile.setCoins(targetProfile.getCoins() - soup.getConfigHandler().getSettingsHandler().DEATH_LOSS);
         }
 
-        targetProfile.setCoins(targetProfile.getCoins() - soup.getConfigHandler().getSettingsHandler().DEATH_LOSS);
-
         soup.getServer().getOnlinePlayers().forEach(player ->
-            player.sendMessage(soup.getConfigHandler().getMessageHandler().DEATH_MESSAGE.replace("{player}", player.getName())
-            .replace("{killer}", killer.getName())));
+                player.sendMessage(soup.getConfigHandler().getMessageHandler().DEATH_MESSAGE.replace("{player}", player.getName())
+                        .replace("{killer}", killer.getName())));
     }
 
     @EventHandler
@@ -70,6 +80,12 @@ public class SoupListener extends ListenerAdapter {
 
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             Profile profile = soup.getProfileHandler().getProfileByUUID(player.getUniqueId());
+
+            SoupUseEvent soupUseEvent = new SoupUseEvent(stack, profile);
+            soup.getServer().getPluginManager().callEvent(soupUseEvent);
+
+            if (soupUseEvent.isCancelled()) return;
+
             profile.setSoupsUsed(profile.getSoupsUsed() + 1);
 
             player.setItemInHand(new ItemStack(Material.BOWL));
