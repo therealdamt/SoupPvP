@@ -1,5 +1,8 @@
 # SoupPvP
 
+## Wiki
+Before you read any of this, most/all of this information and even more can be found on the ``wiki``. The wiki states all information that you need regarding the plugin and all information that you'd like. I am suggesting to go to the ``wiki``, and not reading this. You can click on the ``wiki`` button above, or you can go to it by clicking [here](https://github.com/therealdamt/SoupPvP/wiki)
+
 ### SoupPvP Core
 Hello there everyone, my name is damt and this core has been created just to add something spicy to my portfolio. All concepts and all code that is stated should work right now. 
 However, know that the code is still **not** tested!
