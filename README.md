@@ -22,7 +22,7 @@ You can choose between 2 of the following data storages:
 You can check out information on the permissions via the wiki, or by clicking [here](https://github.com/therealdamt/SoupPvP/wiki/Permissions))
 
 ### PlaceHolderAPI
-You can check out information on the PlaceHolder(s) available via the wiki, or by click [here](https://github.com/therealdamt/SoupPvP/wiki/PlaceHolder(s)))
+You can check out information on the PlaceHolder(s) available via the wiki, or by click [here](https://github.com/therealdamt/SoupPvP/wiki/PlaceHolder(s))
 
 ### Credits
 
