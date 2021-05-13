@@ -15,30 +15,27 @@ settings:
   kill-reward: 100
   death-loss: 100
 
-messages:
-  death-message: "&a{player} &7has been slaughtered by &a{killer} &7using &a{reason}"
-
 scoreboard:
-  title: "&a&lSoupPvP &7(Map 1)"
+  title: "&b&lSoupPvP &7(Map 1)"
   normal:
     - "&7&m----------------------------"
-    - "&aPlayer Name&f:&7 {player}"
+    - "&bPlayer Name&f:&7 {player}"
     - " "
-    - "&aKills&f: &7{kills}"
-    - "&aDeaths&f: &7{deaths}"
-    - "&aCoins&f: &7{coins}"
-    - "&aSoups Used&f: &7{used}"
+    - "&bKills&f: &7{kills}"
+    - "&bDeaths&f: &7{deaths}"
+    - "&bCoins&f: &7{coins}"
+    - "&bSoups Used&f: &7{used}"
     - " "
     - "&7&odamt.xyz"
     - "&7&m----------------------------"
   in-combat:
     - "&7&m----------------------------"
-    - "&aPlayer Name&f:&7 {player}"
+    - "&bPlayer Name&f:&7 {player}"
     - " "
-    - "&aCombat&f: &7{time}s"
-    - "&aKills&f: &7{kills}"
-    - "&aCoins&f: &7{coins}"
-    - "&aSoups Used&f: &7{used}"
+    - "&bCombat&f: &7{time}s"
+    - "&bKills&f: &7{kills}"
+    - "&bCoins&f: &7{coins}"
+    - "&bSoups Used&f: &7{used}"
     - " "
     - "&7&odamt.xyz"
     - "&7&m----------------------------"

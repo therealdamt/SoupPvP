@@ -3,3 +3,16 @@ author: damt
 version: 1.0
 main: xyz.damt.Soup
 description: SoupPvP Plugin Created By Damt.
+commands:
+  pay:
+    aliases: [p2p, send]
+    description: Sends money to a specific user
+  balance:
+    aliases: [bal, coins]
+    description: Showcases the amount of a coins the player has
+  stats:
+    aliases: [statistics]
+    description: Shows a player a gui showcasing their statistics
+  debug:
+    aliases: [admindebug]
+    description: Debug command for admins

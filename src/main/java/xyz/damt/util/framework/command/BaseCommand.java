@@ -24,6 +24,7 @@ public abstract class BaseCommand implements CommandExecutor {
     protected boolean playerOnly = false;
 
     private final Set<SubCommand> subCommands = new HashSet<>();
+    public final Soup soup = JavaPlugin.getPlugin(Soup.class);
 
     public BaseCommand(String name, String permission, String usage) {
         this.name = name;
@@ -53,10 +54,9 @@ public abstract class BaseCommand implements CommandExecutor {
         }
 
         String subCommandName = strings[0];
-
         SubCommand subCommand = getSubCommand(subCommandName);
 
-        if(subCommand == null){
+        if(subCommand == null) {
             commandSender.sendMessage("Invalid Value");
             return false;
         }

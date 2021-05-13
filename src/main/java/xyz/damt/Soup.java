@@ -34,6 +34,7 @@ public final class Soup extends JavaPlugin {
     //
     private ConfigFile kitsYML;
     private ConfigFile profilesYML;
+    private ConfigFile messagesYML;
     //
     private MongoClient client;
     private MongoDatabase mongoDatabase;
@@ -53,6 +54,8 @@ public final class Soup extends JavaPlugin {
             this.kitsYML = new ConfigFile(getDataFolder(), "kits.yml");
             this.profilesYML = new ConfigFile(getDataFolder(), "profiles.yml");
         }
+
+        this.messagesYML = new ConfigFile(getDataFolder(), "messages.yml");
 
         if (configHandler.getSettingsHandler().USE_PLACEHOLDER_API) {
             if (new PlaceHolderExpansion(this).register()) {

@@ -25,7 +25,7 @@ public class ConfigHandler {
 
     public void reload() {
         this.database = new DatabaseHandler(soup.getConfig());
-        this.messageHandler = new MessageHandler(soup.getConfig());
+        this.messageHandler = new MessageHandler(soup.getMessagesYML().getConfig());
         this.settingsHandler = new SettingsHandler(soup.getConfig());
         this.scoreboardHandler = new ScoreboardHandler(soup.getConfig());
     }

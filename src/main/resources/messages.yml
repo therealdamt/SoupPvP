@@ -1,0 +1,6 @@
+pay:
+  sent: "&7You have &b{amount} &7to the player &b{player}"
+  paid: "&7You have received &b{amount} &7from the player &b{player}"
+
+balance-message: "&7You currently have &b{amount} &7coins"
+death-message: "&b{player} &7has been slaughtered by &b{killer}"
