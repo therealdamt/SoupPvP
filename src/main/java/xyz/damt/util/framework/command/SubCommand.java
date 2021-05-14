@@ -15,7 +15,7 @@ public abstract class SubCommand {
     private final String description;
 
     protected boolean playerOnly = false;
-    public final Soup soup = JavaPlugin.getPlugin(Soup.class);
+    public final Soup soup = Soup.getInstance();
 
     public SubCommand(String name, String permission, String usage, String description) {
         this.name = name;

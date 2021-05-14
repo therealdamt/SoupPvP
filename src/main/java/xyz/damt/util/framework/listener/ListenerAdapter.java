@@ -6,7 +6,7 @@ import xyz.damt.Soup;
 
 public abstract class ListenerAdapter implements Listener {
 
-    public final Soup soup = JavaPlugin.getPlugin(Soup.class);
+    public final Soup soup = Soup.getInstance();
 
     public ListenerAdapter() {
         soup.getServer().getPluginManager().registerEvents(this, soup);

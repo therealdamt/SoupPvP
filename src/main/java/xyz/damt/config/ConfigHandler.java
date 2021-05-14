@@ -19,7 +19,7 @@ public class ConfigHandler {
     @Getter private ScoreboardHandler scoreboardHandler;
 
     public ConfigHandler() {
-        this.soup = JavaPlugin.getPlugin(Soup.class);
+        this.soup = Soup.getInstance();
         this.reload();
     }
 

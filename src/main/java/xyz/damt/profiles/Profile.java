@@ -33,7 +33,7 @@ public class Profile {
         this.uuid = uuid;
         this.mongo = mongo;
 
-        this.soup = JavaPlugin.getPlugin(Soup.class);
+        this.soup = Soup.getInstance();
 
         soup.getProfileHandler().getProfileHashMap().put(uuid, this);
         this.load();

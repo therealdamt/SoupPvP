@@ -26,6 +26,7 @@ import xyz.damt.util.assemble.AssembleStyle;
 @Getter
 public final class Soup extends JavaPlugin {
 
+    @Getter private static Soup instance;
     private SoupAPI soupAPI;
 
     private ConfigHandler configHandler;
@@ -43,6 +44,7 @@ public final class Soup extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        instance = this;
         this.saveDefaultConfig();
     }
 
@@ -73,12 +75,12 @@ public final class Soup extends JavaPlugin {
         this.kitHandler = new KitHandler();
         this.kitHandler.loadAllKits();
 
-        Assemble assemble = new Assemble(this, new Adapter());
+        Assemble assemble = new Assemble(this, new Adapter(this));
         assemble.setAssembleStyle(AssembleStyle.KOHI);
         assemble.setTicks(2);
 
         if (configHandler.getSettingsHandler().USE_MONGO)
-        new MongoSaveTask().runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
+        new MongoSaveTask(this).runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
 
         this.soupAPI = new SoupAPI();
     }

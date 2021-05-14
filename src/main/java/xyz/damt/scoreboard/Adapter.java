@@ -12,7 +12,11 @@ import java.util.stream.Collectors;
 
 public class Adapter implements AssembleAdapter {
 
-    private final Soup soup = JavaPlugin.getPlugin(Soup.class);
+    private final Soup soup;
+
+    public Adapter(Soup soup) {
+        this.soup = soup;
+    }
 
     @Override
     public String getTitle(Player player) {
@@ -32,7 +36,7 @@ public class Adapter implements AssembleAdapter {
                     .replace("{player}", player.getName())).collect(Collectors.toList()));
         }
 
-        return CC.translate(soup.getConfigHandler().getScoreboardHandler().IN_COMBAT.stream().map(string -> string.replace("{coins}",
+        return CC.translate(soup.getConfigHandler().getScoreboardHandler().NORMAL.stream().map(string -> string.replace("{coins}",
                 String.valueOf(playerProfile.getCoins())).replace("{kills}", String.valueOf(playerProfile.getKills()))
                 .replace("{deaths}", String.valueOf(playerProfile.getDeaths())
                 .replace("{used}", String.valueOf(playerProfile.getSoupsUsed())))

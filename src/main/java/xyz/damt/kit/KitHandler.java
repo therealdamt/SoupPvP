@@ -18,7 +18,7 @@ public class KitHandler {
     @Getter private final HashMap<String, Kit> kitMap;
 
     public KitHandler() {
-        this.soup = JavaPlugin.getPlugin(Soup.class);
+        this.soup = Soup.getInstance();
         this.kitMap = new HashMap<>();
     }
 

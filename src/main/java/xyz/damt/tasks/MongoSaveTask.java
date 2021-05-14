@@ -11,8 +11,8 @@ public class MongoSaveTask extends BukkitRunnable {
 
     private final Soup soup;
 
-    public MongoSaveTask() {
-        this.soup = JavaPlugin.getPlugin(Soup.class);
+    public MongoSaveTask(Soup soup) {
+        this.soup = soup;
     }
 
     @Override

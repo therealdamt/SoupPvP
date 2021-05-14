@@ -24,7 +24,7 @@ public abstract class BaseCommand implements CommandExecutor {
     protected boolean playerOnly = false;
 
     private final Set<SubCommand> subCommands = new HashSet<>();
-    public final Soup soup = JavaPlugin.getPlugin(Soup.class);
+    public final Soup soup = Soup.getInstance();
 
     public BaseCommand(String name, String permission, String usage) {
         this.name = name;

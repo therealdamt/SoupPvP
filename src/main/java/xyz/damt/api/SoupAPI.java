@@ -11,7 +11,7 @@ public class SoupAPI {
     private final Soup soup;
 
     public SoupAPI() {
-        this.soup = JavaPlugin.getPlugin(Soup.class);
+        this.soup = Soup.getInstance();
     }
 
     public int getKills(UUID uuid) {

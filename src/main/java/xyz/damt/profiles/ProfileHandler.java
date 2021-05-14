@@ -18,7 +18,7 @@ public class ProfileHandler {
     @Getter private final HashMap<UUID, Profile> profileHashMap;
 
     public ProfileHandler() {
-        this.soup = JavaPlugin.getPlugin(Soup.class);
+        this.soup = Soup.getInstance();
         this.profileHashMap = new HashMap<>();
     }
 

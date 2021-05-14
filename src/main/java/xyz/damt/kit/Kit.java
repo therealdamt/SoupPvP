@@ -29,7 +29,7 @@ public class Kit {
     private List<PotionEffect> effects;
 
     public Kit(String kitName, ItemStack[] armorContents, ItemStack[] contents) {
-        this.soup = JavaPlugin.getPlugin(Soup.class);
+        this.soup = Soup.getInstance();
 
         this.kitName = kitName;
         this.contents = contents;
