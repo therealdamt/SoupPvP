@@ -13,12 +13,12 @@ public class ServerListener extends ListenerAdapter {
 
     @EventHandler
     public void onServerBlockBreakEvent(BlockBreakEvent e) {
-        e.setCancelled(true);
-    }
+        e.setCancelled(!soup.getServerHandler().canBuild(e.getPlayer().getUniqueId()));
+     }
 
     @EventHandler
     public void onServerBlockPlaceEvent(BlockPlaceEvent e) {
-        e.setCancelled(true);
+        e.setCancelled(!soup.getServerHandler().canBuild(e.getPlayer().getUniqueId()));
     }
 
     @EventHandler

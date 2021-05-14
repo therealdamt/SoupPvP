@@ -13,6 +13,7 @@ import xyz.damt.api.SoupAPI;
 import xyz.damt.commands.*;
 import xyz.damt.commands.admin.DebugCommand;
 import xyz.damt.config.ConfigHandler;
+import xyz.damt.handlers.ServerHandler;
 import xyz.damt.kit.KitHandler;
 import xyz.damt.listeners.ServerListener;
 import xyz.damt.listeners.SoupListener;
@@ -38,6 +39,7 @@ public final class Soup extends JavaPlugin {
 
     private ConfigHandler configHandler;
     private ProfileHandler profileHandler;
+    private ServerHandler serverHandler;
     private KitHandler kitHandler;
     //
     private ConfigFile kitsYML;
@@ -60,6 +62,7 @@ public final class Soup extends JavaPlugin {
     @Override
     public void onEnable() {
         this.configHandler = new ConfigHandler();
+        this.serverHandler = new ServerHandler();
 
         if (!configHandler.getSettingsHandler().USE_MONGO) {
             this.kitsYML = new ConfigFile(getDataFolder(), "kits.yml");
@@ -98,6 +101,7 @@ public final class Soup extends JavaPlugin {
         new StatsCommand();
         new DebugCommand();
         new BalanceCommand();
+        new BuildCommand();
         // Listeners
         new ProfileListener();
         new ServerListener();
