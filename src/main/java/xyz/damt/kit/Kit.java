@@ -5,6 +5,7 @@ import com.mongodb.client.model.ReplaceOptions;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.Document;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,6 +16,7 @@ import xyz.damt.util.Serializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -24,19 +26,24 @@ public class Kit {
     private final Soup soup;
 
     private String kitName;
+
     private ItemStack[] contents;
     private ItemStack[] armorContents;
+
     private List<PotionEffect> effects;
+    private ItemStack icon;
 
-    public Kit(String kitName, ItemStack[] armorContents, ItemStack[] contents) {
+    public Kit(String kitName, ItemStack[] contents, ItemStack[] armorContents) {
         this.soup = Soup.getInstance();
-
         this.kitName = kitName;
+
         this.contents = contents;
         this.armorContents = armorContents;
-        this.effects = new ArrayList<>();
 
-        this.soup.getKitHandler().getKitMap().put(kitName, this);
+        this.effects = new ArrayList<>();
+        this.icon = new ItemStack(Material.DIAMOND_SWORD);
+
+        this.soup.getKitHandler().getKitMap().put(kitName.toLowerCase(), this);
     }
 
     public void setKitName(String name) {
@@ -47,8 +54,8 @@ public class Kit {
     }
 
     public void applyToUser(Player player) {
-        player.getInventory().setArmorContents(armorContents);
         player.getInventory().setContents(contents);
+        player.getInventory().setArmorContents(armorContents);
 
         effects.forEach(player::addPotionEffect);
     }
@@ -62,35 +69,35 @@ public class Kit {
     }
 
     public void save(boolean mongo) {
-        soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
-            if (!mongo) {
-                soup.getKitsYML().getConfig().set(kitName + ".contents", Serializer.itemStackArrayToBase64(contents));
-                soup.getKitsYML().getConfig().set(kitName + ".armor", Serializer.itemStackArrayToBase64(armorContents));
-                soup.getKitsYML().getConfig().set(kitName + ".effects", CC.serializePotionEffects(effects));
+        if (!mongo) {
+            soup.getKitsYML().getConfig().set(kitName + ".contents", Serializer.itemStackArrayToBase64(contents));
+            soup.getKitsYML().getConfig().set(kitName + ".armor", Serializer.itemStackArrayToBase64(armorContents));
+            soup.getKitsYML().getConfig().set(kitName + ".effects", CC.serializePotionEffects(effects));
+            soup.getKitsYML().getConfig().set(kitName + ".icon", icon.getType().toString());
 
-                try {
-                    soup.getKitsYML().save();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                return;
+            try {
+                soup.getKitsYML().save();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
+            return;
+        }
 
-            Document document = soup.getKits().find(new Document("_id", kitName)).first();
+        Document document = soup.getKits().find(new Document("_id", kitName)).first();
 
-            if (document == null) {
-                Document newDocument = new Document("_id", kitName).append("contents", Serializer.itemStackArrayToBase64(contents))
-                        .append("armor", Serializer.itemStackArrayToBase64(armorContents)).append("effects", CC.serializePotionEffects(effects));
-                soup.getKits().insertOne(newDocument);
-                return;
-            }
+        if (document == null) {
+            Document newDocument = new Document("_id", kitName).append("contents", Serializer.itemStackArrayToBase64(contents))
+                    .append("armor", Serializer.itemStackArrayToBase64(armorContents)).append("effects", CC.serializePotionEffects(effects))
+                    .append("icon", icon.getType().toString());
+            soup.getKits().insertOne(newDocument);
+            return;
+        }
 
-            updateDocument(document, "contents", Serializer.itemStackArrayToBase64(contents));
-            updateDocument(document, "armor", Serializer.itemStackArrayToBase64(armorContents));
-            updateDocument(document, "effects", CC.serializePotionEffects(effects));
-        });
+        updateDocument(document, "contents", Serializer.itemStackArrayToBase64(contents));
+        updateDocument(document, "armor", Serializer.itemStackArrayToBase64(armorContents));
+        updateDocument(document, "effects", CC.serializePotionEffects(effects));
+        updateDocument(document, "icon", icon.getType().toString());
     }
 
     private void updateDocument(Document document, String key, Object value) {

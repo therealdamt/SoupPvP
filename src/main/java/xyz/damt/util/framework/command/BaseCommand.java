@@ -10,9 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter @Setter
 public abstract class BaseCommand implements CommandExecutor {
@@ -31,7 +29,7 @@ public abstract class BaseCommand implements CommandExecutor {
         this.permission = permission;
         this.usage = usage;
 
-        register();
+        soup.getCommand(getName()).setExecutor(this);
     }
 
     public abstract void execute(CommandSender sender, String[] args);
@@ -52,6 +50,12 @@ public abstract class BaseCommand implements CommandExecutor {
             execute(commandSender, strings);
             return false;
         }
+
+        getSubCommands().forEach(subCommand -> {
+            if (subCommand.getName() == null) {
+                subCommand.execute(commandSender, strings);
+            }
+        });
 
         String subCommandName = strings[0];
         SubCommand subCommand = getSubCommand(subCommandName);
@@ -79,8 +83,5 @@ public abstract class BaseCommand implements CommandExecutor {
         sender.sendMessage(ChatColor.RED + usage);
     }
 
-    public void register() {
-        Objects.requireNonNull(JavaPlugin.getPlugin(Soup.class).getCommand(getName())).setExecutor(this);
-    }
 
 }

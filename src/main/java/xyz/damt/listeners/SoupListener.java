@@ -46,8 +46,12 @@ public class SoupListener extends ListenerAdapter {
             targetProfile.setCoins(targetProfile.getCoins() - soup.getConfigHandler().getSettingsHandler().DEATH_LOSS);
         }
 
+        if (targetProfile.getTimerCooldown().isOnCooldown(target)) {
+            targetProfile.getTimerCooldown().removeCooldown(target);
+        }
+
         soup.getServer().getOnlinePlayers().forEach(player ->
-                player.sendMessage(soup.getConfigHandler().getMessageHandler().DEATH_MESSAGE.replace("{player}", player.getName())
+                player.sendMessage(soup.getConfigHandler().getMessageHandler().DEATH_MESSAGE.replace("{player}", target.getName())
                         .replace("{killer}", killer.getName())));
     }
 
@@ -89,6 +93,8 @@ public class SoupListener extends ListenerAdapter {
             profile.setSoupsUsed(profile.getSoupsUsed() + 1);
 
             player.setItemInHand(new ItemStack(Material.BOWL));
+            player.updateInventory();
+
             double finalHealth = player.getHealth() + soup.getConfigHandler().getSettingsHandler().HEALTH_INCREASE;
 
             if (finalHealth >= 20) {

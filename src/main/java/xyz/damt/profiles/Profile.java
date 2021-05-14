@@ -62,49 +62,32 @@ public class Profile {
     }
 
     public void save() {
-        soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
-            if (!mongo) {
-                if (!soup.getProfilesYML().getConfig().contains(uuid.toString())) {
+        if (!mongo) {
+            soup.getProfilesYML().getConfig().set(uuid.toString() + ".kills", kills);
+            soup.getProfilesYML().getConfig().set(uuid.toString() + ".deaths", deaths);
+            soup.getProfilesYML().getConfig().set(uuid.toString() + ".coins", coins);
+            soup.getProfilesYML().getConfig().set(uuid.toString() + ".used", soupsUsed);
 
-                    soup.getProfilesYML().getConfig().set(uuid.toString() + ".kills", 0);
-                    soup.getProfilesYML().getConfig().set(uuid.toString() + ".deaths", 0);
-                    soup.getProfilesYML().getConfig().set(uuid.toString() + ".coins", 0);
-                    soup.getProfilesYML().getConfig().set(uuid.toString() + ".used", 0);
-
-                    try {
-                        soup.getProfilesYML().save();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return;
-                }
-
-                soup.getProfilesYML().getConfig().set(uuid.toString() + ".kills", kills);
-                soup.getProfilesYML().getConfig().set(uuid.toString() + ".deaths", deaths);
-                soup.getProfilesYML().getConfig().set(uuid.toString() + ".coins", coins);
-                soup.getProfilesYML().getConfig().set(uuid.toString() + ".used", soupsUsed);
-
-                try {
-                    soup.getProfilesYML().save();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return;
+            try {
+                soup.getProfilesYML().save();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            return;
+        }
 
-            Document document = soup.getProfiles().find(new Document("_id", uuid.toString())).first();
+        Document document = soup.getProfiles().find(new Document("_id", uuid.toString())).first();
 
-            if (document == null) {
-                Document newDocument = new Document("_id", uuid.toString()).append("kills", 0).append("deaths", 0).append("coins", 0);
-                soup.getProfiles().insertOne(newDocument);
-                return;
-            }
+        if (document == null) {
+            Document newDocument = new Document("_id", uuid.toString()).append("kills", 0).append("deaths", 0).append("coins", 0);
+            soup.getProfiles().insertOne(newDocument);
+            return;
+        }
 
-            updateDocument(document, "kills", kills);
-            updateDocument(document, "deaths", deaths);
-            updateDocument(document, "coins", coins);
-            updateDocument(document, "used", soupsUsed);
-        });
+        updateDocument(document, "kills", kills);
+        updateDocument(document, "deaths", deaths);
+        updateDocument(document, "coins", coins);
+        updateDocument(document, "used", soupsUsed);
     }
 
     public Player getPlayer() {

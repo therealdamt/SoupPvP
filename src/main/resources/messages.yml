@@ -4,3 +4,4 @@ pay:
 
 balance-message: "&7You currently have &b{amount} &7coins"
 death-message: "&b{player} &7has been slaughtered by &b{killer}"
+applied-kit: "&7You have applied the kit &b{kit}"

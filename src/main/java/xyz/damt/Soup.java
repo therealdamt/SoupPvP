@@ -10,17 +10,24 @@ import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.api.SoupAPI;
+import xyz.damt.commands.*;
+import xyz.damt.commands.admin.DebugCommand;
 import xyz.damt.config.ConfigHandler;
 import xyz.damt.kit.KitHandler;
+import xyz.damt.listeners.ServerListener;
+import xyz.damt.listeners.SoupListener;
 import xyz.damt.placeholder.PlaceHolderExpansion;
 import xyz.damt.profiles.Profile;
 import xyz.damt.profiles.ProfileHandler;
+import xyz.damt.profiles.ProfileListener;
 import xyz.damt.scoreboard.Adapter;
 import xyz.damt.tasks.MongoSaveTask;
 import xyz.damt.util.CC;
 import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
+import xyz.damt.util.framework.command.BaseCommand;
+import xyz.damt.util.framework.listener.ListenerAdapter;
 
 
 @Getter
@@ -45,7 +52,9 @@ public final class Soup extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
+
         this.saveDefaultConfig();
+        this.messagesYML = new ConfigFile(getDataFolder(), "messages.yml");
     }
 
     @Override
@@ -57,13 +66,11 @@ public final class Soup extends JavaPlugin {
             this.profilesYML = new ConfigFile(getDataFolder(), "profiles.yml");
         }
 
-        this.messagesYML = new ConfigFile(getDataFolder(), "messages.yml");
-
         if (configHandler.getSettingsHandler().USE_PLACEHOLDER_API) {
             if (new PlaceHolderExpansion(this).register()) {
-                this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&aSoup&7] &aHooked into PlaceHolderAPI!"));
+                this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&bSoup&7] &bHooked into PlaceHolderAPI!"));
             } else {
-                this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&aSoup&7] &cFailed to hook into PlaceHolderAPI!"));
+                this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&bSoup&7] &cFailed to hook into PlaceHolderAPI!"));
             }
         }
 
@@ -83,6 +90,18 @@ public final class Soup extends JavaPlugin {
         new MongoSaveTask(this).runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
 
         this.soupAPI = new SoupAPI();
+
+        // Commands
+        new KitCommand();
+        new KitsCommand();
+        new PayCommand();
+        new StatsCommand();
+        new DebugCommand();
+        new BalanceCommand();
+        // Listeners
+        new ProfileListener();
+        new ServerListener();
+        new SoupListener();
     }
 
     @Override

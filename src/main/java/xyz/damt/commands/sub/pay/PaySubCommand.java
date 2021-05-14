@@ -9,7 +9,7 @@ import xyz.damt.util.CC;
 public class PaySubCommand extends xyz.damt.util.framework.command.SubCommand {
 
     public PaySubCommand() {
-        super("", "", "/pay <player> <amount>", "Pays a player a specified amount");
+        super(null, "", "/pay <player> <amount>", "Pays a player a specified amount");
 
         this.playerOnly = true;
     }

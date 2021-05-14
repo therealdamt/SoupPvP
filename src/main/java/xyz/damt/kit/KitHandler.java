@@ -2,6 +2,8 @@ package xyz.damt.kit;
 
 import lombok.Getter;
 import org.bson.Document;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 import xyz.damt.util.CC;
@@ -28,13 +30,14 @@ public class KitHandler {
                 soup.getKitsYML().getConfig().getConfigurationSection("").getKeys(false).forEach(s -> {
                     Kit kit = null;
                     try {
-                        kit = new Kit(s, Serializer.itemStackArrayFromBase64(soup.getConfig().getString(s + ".contents")),
-                                Serializer.itemStackArrayFromBase64(soup.getConfig().getString(s + ".armor")));
+                        kit = new Kit(s, Serializer.itemStackArrayFromBase64(soup.getKitsYML().getString(s + ".contents")),
+                                Serializer.itemStackArrayFromBase64(soup.getKitsYML().getString(s + ".armor")));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     assert kit != null;
-                    kit.setEffects(CC.deserializePotionEffects(soup.getConfig().getStringList(s + ".effects")));
+                    kit.setEffects(CC.deserializePotionEffects(soup.getKitsYML().getStringList(s + ".effects")));
+                    kit.setIcon(new ItemStack(Material.valueOf(soup.getKitsYML().getString(s + ".icon"))));
                 });
                 return;
             }
@@ -49,6 +52,7 @@ public class KitHandler {
                }
                assert kit != null;
                kit.setEffects(CC.deserializePotionEffects(document.getList("effects", String.class)));
+               kit.setIcon(new ItemStack(Material.valueOf(document.getString("icon"))));
            });
         });
     }
@@ -58,7 +62,7 @@ public class KitHandler {
     }
 
     public Kit getKitByName(String name) {
-        return kitMap.get(name);
+        return kitMap.get(name.toLowerCase());
     }
 
 }

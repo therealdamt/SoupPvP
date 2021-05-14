@@ -32,7 +32,7 @@ scoreboard:
     - "&7&m----------------------------"
     - "&bPlayer Name&f:&7 {player}"
     - " "
-    - "&bCombat&f: &7{time}s"
+    - "&bCombat&f: &7{time}"
     - "&bKills&f: &7{kills}"
     - "&bCoins&f: &7{coins}"
     - "&bSoups Used&f: &7{used}"

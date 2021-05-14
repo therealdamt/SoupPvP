@@ -24,7 +24,7 @@ public class ProfileHandler {
 
     public void loadAllProfiles() {
         soup.getServer().getScheduler().runTaskAsynchronously(soup, () -> {
-            if (soup.getConfigHandler().getSettingsHandler().USE_MONGO) {
+            if (!soup.getConfigHandler().getSettingsHandler().USE_MONGO) {
                 soup.getProfilesYML().getConfig().getConfigurationSection("").getKeys(false).forEach(s -> {
                     new Profile(UUID.fromString(s), false);
                 });

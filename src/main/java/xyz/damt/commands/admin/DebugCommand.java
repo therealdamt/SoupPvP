@@ -1,6 +1,7 @@
 package xyz.damt.commands.admin;
 
 import org.bukkit.command.CommandSender;
+import xyz.damt.util.CC;
 import xyz.damt.util.framework.command.BaseCommand;
 
 public class DebugCommand extends BaseCommand {
@@ -11,6 +12,7 @@ public class DebugCommand extends BaseCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        sender.sendMessage(CC.translate("&7The debug information has been printed out in &bconsole&7."));
         System.out.println("Profile(s) Info: ");
 
         soup.getProfileHandler().getAllProfiles().forEach(profile -> {
@@ -22,6 +24,7 @@ public class DebugCommand extends BaseCommand {
             System.out.println("Profile Soups: " + profile.getSoupsUsed());
         });
 
+        System.out.println("-------------------");
         System.out.println("Kits Registered: ");
         soup.getKitHandler().getAllKits().forEach(kit -> {
             System.out.println("- " + kit.getKitName());

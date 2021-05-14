@@ -12,13 +12,13 @@ import xyz.damt.util.CC;
 import xyz.damt.util.ItemBuilder;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class StatisticsMenu extends Menu {
 
     public StatisticsMenu(Player player) {
         super(player);
-        this.menuName = player.getName() + "'s stats";
     }
 
     @Override
@@ -26,23 +26,27 @@ public class StatisticsMenu extends Menu {
         final HashMap<Integer, ItemStack> itemMap = new HashMap<>();
         Profile profile = soup.getProfileHandler().getProfileByUUID(player.getUniqueId());
 
-        ItemStack kills = new ItemBuilder(Material.DIAMOND_SWORD).name("&b&lKills").lore(Arrays.asList(" ",
-                "&bKills&7: " + profile.getKills())).build();
+        ItemStack kills = new ItemBuilder(Material.DIAMOND_SWORD).name("&b&lKills").lore(Collections.singletonList(
+                "&b" + profile.getKills())).build();
         itemMap.put(20, kills);
 
-        ItemStack deaths = new ItemBuilder(Material.REDSTONE_BLOCK).name("&c&lDeaths").lore(Arrays.asList(" ",
-                "&cDeaths&7: " + profile.getDeaths())).build();
+        ItemStack deaths = new ItemBuilder(Material.REDSTONE_BLOCK).name("&c&lDeaths").lore(Collections.singletonList(
+                "&c" + profile.getDeaths())).build();
         itemMap.put(22, deaths);
 
-        ItemStack coins = new ItemBuilder(Material.GOLD_INGOT).name("&6&lCoins").lore(Arrays.asList(" ",
-                "&6Coins&7: " + profile.getCoins())).build();
+        ItemStack coins = new ItemBuilder(Material.GOLD_INGOT).name("&6&lCoins").lore(Collections.singletonList(
+                "&6" + profile.getCoins())).build();
         itemMap.put(24, coins);
 
-        ItemStack soupsUsed = new ItemBuilder(Material.MUSHROOM_SOUP).name("&b&lSoups Used").lore(Arrays.asList(" ",
-                "&bSoups Used&7: " + profile.getSoupsUsed())).build();
+        ItemStack soupsUsed = new ItemBuilder(Material.MUSHROOM_SOUP).name("&b&lSoups Used").lore(Collections.singletonList(
+                "&b" + profile.getSoupsUsed())).build();
         itemMap.put(40, soupsUsed);
 
         return itemMap;
     }
 
+    @Override
+    public String getMenuName() {
+        return "Statistics Menu";
+    }
 }
