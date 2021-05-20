@@ -8,7 +8,6 @@ import org.bson.Document;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import xyz.damt.Soup;
 import xyz.damt.util.CC;
@@ -16,7 +15,6 @@ import xyz.damt.util.Serializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter

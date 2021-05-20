@@ -1,11 +1,8 @@
 package xyz.damt.profiles;
 
-import com.mongodb.Block;
 import lombok.Getter;
 import org.bson.Document;
-import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
-import xyz.damt.tasks.MongoSaveTask;
 
 import java.util.Collection;
 import java.util.HashMap;

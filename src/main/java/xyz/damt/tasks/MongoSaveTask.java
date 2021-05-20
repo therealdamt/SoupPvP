@@ -1,6 +1,5 @@
 package xyz.damt.tasks;
 
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.damt.Soup;
 import xyz.damt.kit.Kit;

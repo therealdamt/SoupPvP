@@ -26,19 +26,19 @@ public class ItemBuilder implements Listener {
     }
 
     public ItemBuilder(final Material material, final int amount) {
-        this(material, amount, (byte)0);
+        this(material, amount, (byte) 0);
     }
 
     public ItemBuilder(final Material material, final int amount, final byte data) {
-        Preconditions.checkNotNull((Object)material, (Object)"Material cannot be null");
-        Preconditions.checkArgument(amount > 0, (Object)"Amount must be positive");
-        this.is = new ItemStack(material, amount, (short)data);
+        Preconditions.checkNotNull(material, "Material cannot be null");
+        Preconditions.checkArgument(amount > 0, "Amount must be positive");
+        this.is = new ItemStack(material, amount, (short) data);
     }
 
     public ItemBuilder(final Material material, final int amount, final int data) {
-        Preconditions.checkNotNull((Object)material, (Object)"Material cannot be null");
-        Preconditions.checkArgument(amount > 0, (Object)"Amount must be positive");
-        this.is = new ItemStack(material, amount, (short)data);
+        Preconditions.checkNotNull(material, "Material cannot be null");
+        Preconditions.checkArgument(amount > 0, "Amount must be positive");
+        this.is = new ItemStack(material, amount, (short) data);
     }
 
     public ItemBuilder amount(final int amount) {
@@ -56,23 +56,23 @@ public class ItemBuilder implements Listener {
 
     public ItemBuilder lore(final String name) {
         final ItemMeta meta = this.is.getItemMeta();
-        List<String> lore = (List<String>)meta.getLore();
+        List<String> lore = meta.getLore();
         if (lore == null) {
-            lore = new ArrayList<String>();
+            lore = new ArrayList<>();
         }
         lore.add(ChatColor.translateAlternateColorCodes('&', name));
-        meta.setLore((List)lore);
+        meta.setLore(lore);
         this.is.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder lore(final List<String> lore) {
-        final List<String> toSet = new ArrayList<String>();
+        final List<String> toSet = new ArrayList<>();
         final ItemMeta meta = this.is.getItemMeta();
         for (final String string : lore) {
             toSet.add(ChatColor.translateAlternateColorCodes('&', string));
         }
-        meta.setLore((List)toSet);
+        meta.setLore(toSet);
         this.is.setItemMeta(meta);
         return this;
     }
@@ -82,12 +82,12 @@ public class ItemBuilder implements Listener {
         if (meta == null) {
             meta = this.is.getItemMeta();
         }
-        meta.setLore((List)Arrays.asList(lore));
+        meta.setLore(Arrays.asList(lore));
         return this;
     }
 
     public ItemBuilder durability(final int durability) {
-        this.is.setDurability((short)durability);
+        this.is.setDurability((short) durability);
         return this;
     }
 
@@ -108,7 +108,7 @@ public class ItemBuilder implements Listener {
 
     public ItemBuilder clearLore() {
         final ItemMeta meta = this.is.getItemMeta();
-        meta.setLore((List)new ArrayList());
+        meta.setLore(new ArrayList());
         this.is.setItemMeta(meta);
         return this;
     }
@@ -127,9 +127,9 @@ public class ItemBuilder implements Listener {
 
     public ItemBuilder color(final Color color) {
         if (this.is.getType() == Material.LEATHER_BOOTS || this.is.getType() == Material.LEATHER_CHESTPLATE || this.is.getType() == Material.LEATHER_HELMET || this.is.getType() == Material.LEATHER_LEGGINGS) {
-            final LeatherArmorMeta meta = (LeatherArmorMeta)this.is.getItemMeta();
+            final LeatherArmorMeta meta = (LeatherArmorMeta) this.is.getItemMeta();
             meta.setColor(color);
-            this.is.setItemMeta((ItemMeta)meta);
+            this.is.setItemMeta((ItemMeta) meta);
             return this;
         }
         throw new IllegalArgumentException("color() only applicable for leather armor!");

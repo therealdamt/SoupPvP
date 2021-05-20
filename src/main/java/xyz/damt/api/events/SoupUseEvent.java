@@ -6,7 +6,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import xyz.damt.profiles.Profile;
 
-
 public class SoupUseEvent extends Event implements Cancellable {
 
     private final HandlerList handlerList = new HandlerList();

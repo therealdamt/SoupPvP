@@ -1,13 +1,11 @@
 package xyz.damt.menu.menus;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.damt.kit.Kit;
 import xyz.damt.menu.Menu;
 import xyz.damt.profiles.Profile;

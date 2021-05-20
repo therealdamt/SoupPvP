@@ -3,10 +3,10 @@ package xyz.damt.util.framework.command;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 
-@Getter @Setter
+@Getter
+@Setter
 public abstract class SubCommand {
 
     private final String name;
@@ -26,7 +26,7 @@ public abstract class SubCommand {
 
     public abstract void execute(CommandSender sender, String[] args);
 
-    public void sendUsage(CommandSender sender){
+    public void sendUsage(CommandSender sender) {
         sender.sendMessage(usage);
     }
 

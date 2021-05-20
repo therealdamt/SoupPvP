@@ -27,8 +27,6 @@ import xyz.damt.util.CC;
 import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
-import xyz.damt.util.framework.command.BaseCommand;
-import xyz.damt.util.framework.listener.ListenerAdapter;
 
 
 @Getter
@@ -102,6 +100,7 @@ public final class Soup extends JavaPlugin {
         new DebugCommand();
         new BalanceCommand();
         new BuildCommand();
+        new SetSpawnCommand();
         // Listeners
         new ProfileListener();
         new ServerListener();

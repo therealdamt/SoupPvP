@@ -64,19 +64,27 @@ public class ConfigFile {
     public String getString(String path) {
         return this.config.getString(path);
     }
+
     public int getInt(String path) {
         return this.config.getInt(path);
     }
+
     public double getDouble(String path) {
         return this.config.getDouble(path);
     }
+
     public boolean getBoolean(String path) {
         return this.config.getBoolean(path);
     }
-    public Collection<String> getSection(String section) { return this.config.getConfigurationSection(section).getKeys(false); }
+
+    public Collection<String> getSection(String section) {
+        return this.config.getConfigurationSection(section).getKeys(false);
+    }
+
     public List<String> getStringList(String path) {
         return this.config.getStringList(path);
     }
+
     public YamlConfiguration getConfig() {
         return config;
     }
@@ -89,7 +97,6 @@ public class ConfigFile {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "There was an error reloading the file " + configName);
         }
     }
-
 
 
 }

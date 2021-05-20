@@ -1,6 +1,5 @@
 package xyz.damt.api;
 
-import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 import xyz.damt.profiles.Profile;
 

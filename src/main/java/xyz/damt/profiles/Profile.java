@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.bson.Document;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 import xyz.damt.util.cooldown.Cooldown;
 

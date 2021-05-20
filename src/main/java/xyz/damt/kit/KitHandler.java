@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 import xyz.damt.util.CC;
 import xyz.damt.util.Serializer;

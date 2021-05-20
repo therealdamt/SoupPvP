@@ -1,7 +1,6 @@
 package xyz.damt.scoreboard;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 import xyz.damt.profiles.Profile;
 import xyz.damt.util.CC;

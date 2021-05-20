@@ -20,3 +20,9 @@ commands:
     description: Opens the kit menu
   kit:
     description: Main kit commmand
+  build:
+    aliases: [buildmode]
+    description: To allow building for you only
+  setspawn:
+    aliases: [spawnset]
+    description: Sets the spawn for your world

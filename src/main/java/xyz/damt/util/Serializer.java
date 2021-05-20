@@ -1,27 +1,16 @@
 package xyz.damt.util;
 
-import lombok.SneakyThrows;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.*;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.json.simple.JSONArray;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
-import xyz.damt.Soup;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.*;
-
 
 public class Serializer {
 
@@ -37,15 +26,14 @@ public class Serializer {
         String content = toBase64(playerInventory);
         String armor = itemStackArrayToBase64(playerInventory.getArmorContents());
 
-        return new String[] { content, armor };
+        return new String[]{content, armor};
     }
 
     /**
-     *
      * A method to serialize an {@link ItemStack} array to Base64 String.
-     *
-     * <p />
-     *
+     * <p>
+     * <p/>
+     * <p>
      * Based off of {@link #toBase64(Inventory)}.
      *
      * @param items to turn into a Base64 String.
@@ -75,9 +63,9 @@ public class Serializer {
 
     /**
      * A method to serialize an inventory to Base64 string.
-     *
-     * <p />
-     *
+     * <p>
+     * <p/>
+     * <p>
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub.
      *
@@ -109,11 +97,10 @@ public class Serializer {
     }
 
     /**
-     *
      * A method to get an {@link Inventory} from an encoded, Base64, string.
-     *
-     * <p />
-     *
+     * <p>
+     * <p/>
+     * <p>
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub.
      *
@@ -143,9 +130,9 @@ public class Serializer {
 
     /**
      * Gets an array of ItemStacks from Base64 string.
-     *
-     * <p />
-     *
+     * <p>
+     * <p/>
+     * <p>
      * Base off of {@link #fromBase64(String)}.
      *
      * @param data Base64 string to convert to ItemStack array.
