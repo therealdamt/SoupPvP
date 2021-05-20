@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class CC {
 
-    public static String translate(String input) {
+    public String translate(String input) {
         return ChatColor.translateAlternateColorCodes('&', input);
     }
 
