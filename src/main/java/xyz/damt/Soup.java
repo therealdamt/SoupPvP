@@ -28,7 +28,6 @@ import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
 
-
 @Getter
 public final class Soup extends JavaPlugin {
 
