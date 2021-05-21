@@ -16,7 +16,7 @@ public class KitsCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        new KitsMenu(player).openMenu(player);
+        new KitsMenu().openMenu(player);
     }
 
 }

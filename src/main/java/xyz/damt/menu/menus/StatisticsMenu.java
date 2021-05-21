@@ -17,10 +17,6 @@ import java.util.HashMap;
 
 public class StatisticsMenu extends Menu {
 
-    public StatisticsMenu(Player player) {
-        super(player);
-    }
-
     @Override
     public HashMap<Integer, ItemStack> getButtons(Player player) {
         final HashMap<Integer, ItemStack> itemMap = new HashMap<>();

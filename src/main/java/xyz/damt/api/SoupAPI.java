@@ -1,6 +1,7 @@
 package xyz.damt.api;
 
 import xyz.damt.Soup;
+import xyz.damt.kit.Kit;
 import xyz.damt.profiles.Profile;
 
 import java.util.UUID;
@@ -31,6 +32,10 @@ public class SoupAPI {
 
     public Profile getProfile(UUID uuid) {
         return soup.getProfileHandler().getProfileByUUID(uuid);
+    }
+
+    public Kit getKitByName(String name) {
+        return soup.getKitHandler().getKitByName(name);
     }
 
 }

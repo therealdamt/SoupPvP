@@ -16,6 +16,6 @@ public class StatsCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        new StatisticsMenu(player).openMenu(player);
+        new StatisticsMenu().openMenu(player);
     }
 }

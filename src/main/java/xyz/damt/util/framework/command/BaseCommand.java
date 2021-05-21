@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.Soup;
 
 import java.util.HashSet;
@@ -21,14 +22,14 @@ public abstract class BaseCommand implements CommandExecutor {
     private final String permission;
     private final String usage;
     private final Set<SubCommand> subCommands = new HashSet<>();
+
     protected boolean playerOnly = false;
+    protected boolean withoutSubCommand = false;
 
     public BaseCommand(String name, String permission, String usage) {
         this.name = name;
         this.permission = permission;
         this.usage = usage;
-
-        soup.getCommand(getName()).setExecutor(this);
     }
 
     public abstract void execute(CommandSender sender, String[] args);
@@ -50,11 +51,11 @@ public abstract class BaseCommand implements CommandExecutor {
             return false;
         }
 
-        getSubCommands().forEach(subCommand -> {
-            if (subCommand.getName() == null) {
+        if (withoutSubCommand) {
+            getSubCommands().forEach(subCommand -> {
                 subCommand.execute(commandSender, strings);
-            }
-        });
+            });
+        }
 
         String subCommandName = strings[0];
         SubCommand subCommand = getSubCommand(subCommandName);
@@ -82,5 +83,8 @@ public abstract class BaseCommand implements CommandExecutor {
         sender.sendMessage(ChatColor.RED + usage);
     }
 
+    public void register(JavaPlugin javaPlugin) {
+        javaPlugin.getCommand(getName()).setExecutor(this);
+    }
 
 }

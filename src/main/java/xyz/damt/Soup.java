@@ -7,6 +7,7 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bson.Document;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.api.SoupAPI;
@@ -28,10 +29,13 @@ import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
 
+import java.util.Arrays;
+
 @Getter
 public final class Soup extends JavaPlugin {
 
-    @Getter private static Soup instance;
+    @Getter
+    private static Soup instance;
     private SoupAPI soupAPI;
 
     private ConfigHandler configHandler;
@@ -56,6 +60,7 @@ public final class Soup extends JavaPlugin {
         this.messagesYML = new ConfigFile(getDataFolder(), "messages.yml");
     }
 
+    @SneakyThrows
     @Override
     public void onEnable() {
         this.configHandler = new ConfigHandler();
@@ -87,23 +92,31 @@ public final class Soup extends JavaPlugin {
         assemble.setTicks(2);
 
         if (configHandler.getSettingsHandler().USE_MONGO)
-        new MongoSaveTask(this).runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
+            new MongoSaveTask(this).runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
 
         this.soupAPI = new SoupAPI();
 
         // Commands
-        new KitCommand();
-        new KitsCommand();
-        new PayCommand();
-        new StatsCommand();
-        new DebugCommand();
-        new BalanceCommand();
-        new BuildCommand();
-        new SetSpawnCommand();
-        // Listeners
-        new ProfileListener();
-        new ServerListener();
-        new SoupListener();
+        Arrays.asList(
+                new KitCommand(),
+                new KitsCommand(),
+                new PayCommand(),
+                new StatsCommand(),
+                new DebugCommand(),
+                new BalanceCommand(),
+                new BuildCommand(),
+                new SetSpawnCommand()
+        ).forEach(baseCommand -> baseCommand.register(this));
+
+        //Listeners
+        Arrays.asList(
+                new ProfileListener(),
+                new ServerListener(),
+                new SoupListener()
+        ).forEach(listenerAdapter -> listenerAdapter.register(this));
+
+        this.getServer().getConsoleSender().sendMessage(CC.translate("&b&lSoupPvP &7core has been &b&lloaded&7!"));
+        this.getServer().getConsoleSender().sendMessage(CC.translate("&7Created by &b&ldamt &7(https://github.com/therealdamt/SoupPvP)"));
     }
 
     @Override

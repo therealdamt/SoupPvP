@@ -3,12 +3,13 @@ package xyz.damt.commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.damt.profiles.Profile;
+import xyz.damt.util.framework.command.BaseCommand;
 import xyz.damt.util.framework.command.SubCommand;
 
-public class BalanceCommand extends SubCommand {
+public class BalanceCommand extends BaseCommand {
 
     public BalanceCommand() {
-        super("balance", "", "/balance", "Showcases your balance");
+        super("balance", "", "/balance");
 
         this.playerOnly = true;
     }

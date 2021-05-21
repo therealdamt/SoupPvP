@@ -13,6 +13,7 @@ public class PayCommand extends BaseCommand {
         this.getSubCommands().add(new PaySubCommand());
 
         this.playerOnly = true;
+        this.withoutSubCommand = true;
     }
 
     @Override

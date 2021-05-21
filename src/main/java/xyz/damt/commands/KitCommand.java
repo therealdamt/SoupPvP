@@ -20,9 +20,12 @@ public class KitCommand extends BaseCommand {
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        player.sendMessage(CC.translate("&cCorrect Usage:"));
+        player.sendMessage(CC.translate("&7-----------------&b&lIncorrect Kit Command Usage&7-----------------"));
+
         this.getSubCommands().forEach(subCommand -> {
             player.sendMessage(CC.translate("&7- &b" + subCommand.getUsage()));
         });
+
+        player.sendMessage(CC.translate("&7-----------------&b&lIncorrect Kit Command Usage&7-----------------"));
     }
 }

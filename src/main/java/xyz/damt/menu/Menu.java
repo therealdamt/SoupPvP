@@ -15,26 +15,19 @@ import java.util.HashMap;
 public abstract class Menu extends ListenerAdapter {
 
     public abstract HashMap<Integer, ItemStack> getButtons(Player player);
-    private final Inventory inventory;
 
-    public Menu(Player player) {
-        inventory = soup.getServer().createInventory(null, getMenuSize(), getMenuName());
+    public void openMenu(Player player) {
+        Inventory inventory = soup.getServer().createInventory(null, getMenuSize(), getMenuName());
 
         getButtons(player).keySet().forEach(integer -> {
             inventory.setItem(integer, getButtons(player).get(integer));
         });
-    }
 
-    public void openMenu(Player player) {
         player.openInventory(inventory);
     }
 
     public void execute(Player player, InventoryAction action, ClickType clickType, Inventory inventory, ItemStack stack) {
 
-    }
-
-    public Inventory getInventory() {
-        return this.inventory;
     }
 
     @EventHandler
@@ -44,7 +37,8 @@ public abstract class Menu extends ListenerAdapter {
         if (!e.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.stripColor(getMenuName()))) return;
         if (e.getCurrentItem() != null) e.setCancelled(true);
 
-        execute((Player) e.getWhoClicked(), e.getAction(), e.getClick(), e.getClickedInventory(), e.getCurrentItem());
+        Player player = (Player) e.getWhoClicked();
+        execute(player, e.getAction(), e.getClick(), e.getClickedInventory(), e.getCurrentItem());
     }
 
     public String getMenuName() {

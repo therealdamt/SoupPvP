@@ -6,22 +6,22 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import xyz.damt.api.events.KitApplyEvent;
 import xyz.damt.kit.Kit;
 import xyz.damt.menu.Menu;
 import xyz.damt.profiles.Profile;
 import xyz.damt.util.CC;
 import xyz.damt.util.ItemBuilder;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class KitsMenu extends Menu {
 
-    public KitsMenu(Player player) {
-        super(player);
-    }
-
     @Override
     public void execute(Player player, InventoryAction action, ClickType clickType, Inventory inventory, ItemStack stack) {
+        if (stack.getItemMeta() == null || stack.getItemMeta().getDisplayName() == null) return;
+
         String kitName = ChatColor.stripColor(stack.getItemMeta().getDisplayName());
         Profile playerProfile = soup.getProfileHandler().getProfileByUUID(player.getUniqueId());
 
@@ -32,14 +32,25 @@ public class KitsMenu extends Menu {
             return;
         }
 
+        if (clickType.isRightClick()) {
+            new KitViewMenu(kit).openMenu(player);
+            return;
+        }
+
         if (playerProfile.getTimerCooldown().isOnCooldown(player)) {
             player.sendMessage(CC.translate("&cYou must wait until you are off combat timer to choose a kit!"));
             player.closeInventory();
             return;
         }
 
-        kit.applyToUser(player);
-        player.sendMessage(soup.getConfigHandler().getMessageHandler().APPLIED_KIT.replace("{kit}", kit.getKitName()));
+        KitApplyEvent kitApplyEvent = new KitApplyEvent(player, kit);
+        soup.getServer().getPluginManager().callEvent(kitApplyEvent);
+
+        if (kitApplyEvent.isCancelled()) return;
+
+        kitApplyEvent.getKit().applyToUser(player);
+        player.sendMessage(soup.getConfigHandler().getMessageHandler().APPLIED_KIT
+                .replace("{kit}", kitApplyEvent.getKit().getKitName()));
     }
 
     @Override
@@ -48,7 +59,14 @@ public class KitsMenu extends Menu {
 
         int i = 0;
         for (Kit kit : soup.getKitHandler().getAllKits()) {
-            ItemStack stack = new ItemBuilder(kit.getIcon().getType()).name(CC.translate("&a" + kit.getKitName())).build();
+            ItemStack stack = new ItemBuilder(kit.getIcon().getType()).name(CC.translate("&b" + kit.getKitName()))
+                    .lore(Arrays.asList(
+                            " ",
+                            CC.translate("&bArmor Pieces Count&7: " + kit.getArmorContents().length),
+                            CC.translate("&bStorage Contents Count&7: " + kit.getContents().length),
+                            " ",
+                            CC.translate("&7Left Click To Select || Right Click To View")
+                    )).build();
             if (!buttons.containsValue(stack)) {
                 buttons.put(i, stack);
                 i++;

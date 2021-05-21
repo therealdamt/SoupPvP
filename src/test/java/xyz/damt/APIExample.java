@@ -5,10 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.damt.api.SoupAPI;
-import xyz.damt.api.events.CoinGainEvent;
-import xyz.damt.api.events.DeathGainEvent;
-import xyz.damt.api.events.KillGainEvent;
-import xyz.damt.api.events.SoupUseEvent;
+import xyz.damt.api.events.*;
+import xyz.damt.kit.Kit;
 import xyz.damt.profiles.Profile;
 import xyz.damt.util.CC;
 
@@ -42,6 +40,16 @@ public class APIExample implements Listener {
             e.setCancelled(true);
             e.getProfile().getPlayer().sendMessage(CC.translate("&cYou are not allowed ot use this soup due to you exceeding the maximum soup uses limit!"));
         }
+    }
+
+    @EventHandler
+    public void onKitApplyEvent(KitApplyEvent e) {
+        if (!e.getKit().getKitName().equals("lol")) return;
+
+        Kit kit = soupAPI.getKitByName("huh");
+        if (kit == null) return;
+
+        e.setKit(soupAPI.getKitByName("huh"));
     }
 
     public void apiExampleUsage(Player player) {
