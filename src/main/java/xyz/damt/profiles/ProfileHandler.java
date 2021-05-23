@@ -14,8 +14,8 @@ public class ProfileHandler {
     private final Soup soup;
     @Getter private final HashMap<UUID, Profile> profileHashMap;
 
-    public ProfileHandler() {
-        this.soup = Soup.getInstance();
+    public ProfileHandler(Soup soup) {
+        this.soup = soup;
         this.profileHashMap = new HashMap<>();
     }
 

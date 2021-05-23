@@ -93,10 +93,10 @@ public final class Soup extends JavaPlugin {
             this.guildHandler.loadAllGuilds();
         }
 
-        this.profileHandler = new ProfileHandler();
+        this.profileHandler = new ProfileHandler(this);
         this.profileHandler.loadAllProfiles();
 
-        this.kitHandler = new KitHandler();
+        this.kitHandler = new KitHandler(this);
         this.kitHandler.loadAllKits();
 
         Assemble assemble = new Assemble(this, new Adapter(this));

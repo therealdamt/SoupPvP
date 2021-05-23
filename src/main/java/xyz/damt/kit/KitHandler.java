@@ -18,8 +18,8 @@ public class KitHandler {
     private final Soup soup;
     @Getter private final HashMap<String, Kit> kitMap;
 
-    public KitHandler() {
-        this.soup = Soup.getInstance();
+    public KitHandler(Soup soup) {
+        this.soup = soup;
         this.kitMap = new HashMap<>();
     }
 
