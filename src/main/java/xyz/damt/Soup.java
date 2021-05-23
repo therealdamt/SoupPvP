@@ -14,8 +14,10 @@ import xyz.damt.api.SoupAPI;
 import xyz.damt.commands.*;
 import xyz.damt.commands.admin.DebugCommand;
 import xyz.damt.config.ConfigHandler;
+import xyz.damt.guild.GuildHandler;
 import xyz.damt.handlers.ServerHandler;
 import xyz.damt.kit.KitHandler;
+import xyz.damt.listeners.GuildListener;
 import xyz.damt.listeners.ServerListener;
 import xyz.damt.listeners.SoupListener;
 import xyz.damt.placeholder.PlaceHolderExpansion;
@@ -23,12 +25,13 @@ import xyz.damt.profiles.Profile;
 import xyz.damt.profiles.ProfileHandler;
 import xyz.damt.profiles.ProfileListener;
 import xyz.damt.scoreboard.Adapter;
-import xyz.damt.tasks.MongoSaveTask;
+import xyz.damt.tasks.ServerSaveTask;
 import xyz.damt.util.CC;
 import xyz.damt.util.ConfigFile;
 import xyz.damt.util.assemble.Assemble;
 import xyz.damt.util.assemble.AssembleStyle;
 
+import javax.print.Doc;
 import java.util.Arrays;
 
 @Getter
@@ -42,15 +45,18 @@ public final class Soup extends JavaPlugin {
     private ProfileHandler profileHandler;
     private ServerHandler serverHandler;
     private KitHandler kitHandler;
+    private GuildHandler guildHandler;
     //
     private ConfigFile kitsYML;
     private ConfigFile profilesYML;
     private ConfigFile messagesYML;
+    private ConfigFile guildsYML;
     //
     private MongoClient client;
     private MongoDatabase mongoDatabase;
     private MongoCollection<Document> profiles;
     private MongoCollection<Document> kits;
+    private MongoCollection<Document> guilds;
 
     @Override
     public void onLoad() {
@@ -69,6 +75,7 @@ public final class Soup extends JavaPlugin {
         if (!configHandler.getSettingsHandler().USE_MONGO) {
             this.kitsYML = new ConfigFile(getDataFolder(), "kits.yml");
             this.profilesYML = new ConfigFile(getDataFolder(), "profiles.yml");
+            this.guildsYML = new ConfigFile(getDataFolder(), "guilds.yml");
         }
 
         if (configHandler.getSettingsHandler().USE_PLACEHOLDER_API) {
@@ -81,6 +88,11 @@ public final class Soup extends JavaPlugin {
 
         this.loadDatabase();
 
+        if (configHandler.getSettingsHandler().GUILDS_IS_ENABLED) {
+            this.guildHandler = new GuildHandler(this);
+            this.guildHandler.loadAllGuilds();
+        }
+
         this.profileHandler = new ProfileHandler();
         this.profileHandler.loadAllProfiles();
 
@@ -91,8 +103,7 @@ public final class Soup extends JavaPlugin {
         assemble.setAssembleStyle(AssembleStyle.KOHI);
         assemble.setTicks(2);
 
-        if (configHandler.getSettingsHandler().USE_MONGO)
-            new MongoSaveTask(this).runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
+        new ServerSaveTask(this).runTaskTimerAsynchronously(this, 300 * 20L, 300 * 20L);
 
         this.soupAPI = new SoupAPI();
 
@@ -105,7 +116,8 @@ public final class Soup extends JavaPlugin {
                 new DebugCommand(),
                 new BalanceCommand(),
                 new BuildCommand(),
-                new SetSpawnCommand()
+                new SetSpawnCommand(),
+                new GuildCommand()
         ).forEach(baseCommand -> baseCommand.register(this));
 
         //Listeners
@@ -115,6 +127,9 @@ public final class Soup extends JavaPlugin {
                 new SoupListener()
         ).forEach(listenerAdapter -> listenerAdapter.register(this));
 
+        if (configHandler.getSettingsHandler().GUILDS_IS_ENABLED)
+            new GuildListener().register(this);
+
         this.getServer().getConsoleSender().sendMessage(CC.translate("&b&lSoupPvP &7core has been &b&lloaded&7!"));
         this.getServer().getConsoleSender().sendMessage(CC.translate("&7Created by &b&ldamt &7(https://github.com/therealdamt/SoupPvP)"));
     }
@@ -123,6 +138,9 @@ public final class Soup extends JavaPlugin {
     public void onDisable() {
         this.profileHandler.getAllProfiles().forEach(Profile::save);
         this.kitHandler.getAllKits().forEach(kit -> kit.save(configHandler.getSettingsHandler().USE_MONGO));
+
+        if (configHandler.getSettingsHandler().GUILDS_IS_ENABLED)
+         this.guildHandler.getAllGuilds().forEach(guild -> guild.save(configHandler.getSettingsHandler().USE_MONGO));
     }
 
     private void loadDatabase() {
@@ -147,6 +165,7 @@ public final class Soup extends JavaPlugin {
 
         profiles = mongoDatabase.getCollection("profiles");
         kits = mongoDatabase.getCollection("kits");
+        guilds = mongoDatabase.getCollection("guilds");
     }
 
 }

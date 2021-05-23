@@ -8,9 +8,12 @@ import org.bson.Document;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import xyz.damt.Soup;
+import xyz.damt.guild.Guild;
 import xyz.damt.util.cooldown.Cooldown;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -27,12 +30,17 @@ public class Profile {
     private int kills;
     private int deaths;
     private int soupsUsed;
+    private Guild guild;
+    private boolean guildChat;
+
+    private List<Guild> guildInvites;
 
     public Profile(UUID uuid, boolean mongo) {
         this.uuid = uuid;
         this.mongo = mongo;
 
         this.soup = Soup.getInstance();
+        this.guildInvites = new ArrayList<>();
 
         soup.getProfileHandler().getProfileHashMap().put(uuid, this);
         this.load();
@@ -47,6 +55,7 @@ public class Profile {
                 this.deaths = soup.getProfilesYML().getConfig().getInt(uuid.toString() + ".deaths");
                 this.coins = soup.getProfilesYML().getConfig().getInt(uuid.toString() + ".coins");
                 this.soupsUsed = soup.getProfilesYML().getInt(uuid.toString() + ".used");
+                this.guild = soup.getGuildHandler().getGuildByName(soup.getProfilesYML().getString(uuid.toString() + ".guild"));
                 return;
             }
 
@@ -57,6 +66,7 @@ public class Profile {
             this.deaths = document.getInteger("deaths");
             this.coins = document.getInteger("coins");
             this.soupsUsed = document.getInteger("used");
+            this.guild = soup.getGuildHandler().getGuildByName(document.getString("guild"));
         });
     }
 
@@ -66,6 +76,7 @@ public class Profile {
             soup.getProfilesYML().getConfig().set(uuid.toString() + ".deaths", deaths);
             soup.getProfilesYML().getConfig().set(uuid.toString() + ".coins", coins);
             soup.getProfilesYML().getConfig().set(uuid.toString() + ".used", soupsUsed);
+            soup.getProfilesYML().getConfig().set(uuid.toString() + ".guild", guild == null ? "null" : guild.getName());
 
             try {
                 soup.getProfilesYML().save();
@@ -78,7 +89,8 @@ public class Profile {
         Document document = soup.getProfiles().find(new Document("_id", uuid.toString())).first();
 
         if (document == null) {
-            Document newDocument = new Document("_id", uuid.toString()).append("kills", 0).append("deaths", 0).append("coins", 0);
+            Document newDocument = new Document("_id", uuid.toString()).append("kills", 0).append("deaths", 0).append("coins", 0)
+                    .append("guild", guild == null ? "null" : guild.getName());
             soup.getProfiles().insertOne(newDocument);
             return;
         }
@@ -87,6 +99,7 @@ public class Profile {
         updateDocument(document, "deaths", deaths);
         updateDocument(document, "coins", coins);
         updateDocument(document, "used", soupsUsed);
+        updateDocument(document, "guild", guild == null ? "null" : guild.getName());
     }
 
     public Player getPlayer() {

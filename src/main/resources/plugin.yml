@@ -26,3 +26,6 @@ commands:
   setspawn:
     aliases: [spawnset]
     description: Sets the spawn for your world
+  guild:
+    aliases: [faction]
+    description: Guild Command

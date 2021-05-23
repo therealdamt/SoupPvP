@@ -7,6 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @UtilityClass
@@ -44,6 +45,14 @@ public class CC {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public List<String> listUUIDToString(List<UUID> uuids) {
+        return uuids.stream().map(UUID::toString).collect(Collectors.toList());
+    }
+
+    public List<UUID> listStringToUUID(List<String> strings) {
+        return strings.stream().map(UUID::fromString).collect(Collectors.toList());
     }
 
 }

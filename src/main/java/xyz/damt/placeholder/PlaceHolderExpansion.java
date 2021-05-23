@@ -53,6 +53,10 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
             return String.valueOf(playerProfile.getCoins());
         }
 
+        if (params.equalsIgnoreCase("guild")) {
+            return playerProfile.getGuild().getName();
+        }
+
         return null;
     }
 }

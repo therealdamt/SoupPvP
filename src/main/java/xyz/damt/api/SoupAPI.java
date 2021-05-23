@@ -1,6 +1,7 @@
 package xyz.damt.api;
 
 import xyz.damt.Soup;
+import xyz.damt.guild.Guild;
 import xyz.damt.kit.Kit;
 import xyz.damt.profiles.Profile;
 
@@ -36,6 +37,14 @@ public class SoupAPI {
 
     public Kit getKitByName(String name) {
         return soup.getKitHandler().getKitByName(name);
+    }
+
+    public Guild getGuildByName(String name) {
+        return soup.getGuildHandler().getGuildByName(name);
+    }
+
+    public Guild getGuild(UUID uuid) {
+        return soup.getProfileHandler().getProfileByUUID(uuid).getGuild();
     }
 
 }

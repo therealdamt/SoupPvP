@@ -14,6 +14,8 @@ settings:
   health-increase: 4.00 #2 health = 1 heart
   kill-reward: 100
   death-loss: 100
+  enable-guilds: true
+  max-number-of-players-per-guild: 5
 
 scoreboard:
   title: "&b&lSoupPvP &7(Map 1)"
